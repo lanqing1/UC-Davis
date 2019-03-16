@@ -1,0 +1,27 @@
+
+isUnion([X|S1],[X|S2],U):-
+    member(X,U),select(X,U,U1),isUnion(S1,S2,U1).
+isUnion([X|S1],S2,U):-
+    member(X,U),select(X,U,U1),isUnion(S1,S2,U1).
+isUnion(S1,[X|S2],U):-
+    member(X,U),select(X,U,U1),isUnion(S1,S2,U1).
+
+isUnion([],[],[]).
+
+isIntersection([],_,[]).
+isIntersection([X|S1],S2,I):-
+    member(X,S2),select(X,S2,S22),select(X,I,I2),isIntersection(S1,S22,I2);
+    isIntersection(S1,S2,I).
+
+isEqual([],[]).
+isEqual([X|S1],S2):-
+    member(X,S2),select(X,S2,S22),isEqual(S1,S22).
+
+
+
+powerSet([],[[]]).
+powerSet([X|S],P):-powerSet(S,P1),helper(X,P1,P2),append(P1,P2,P).
+helper(X,[H|T],P):-
+     helper(X,T,New),append([X],H,P2),append([P2],New,P).
+helper(_,[],[]).
+
